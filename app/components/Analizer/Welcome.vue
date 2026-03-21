@@ -37,7 +37,7 @@ const carousel = [
     
         <ul class="flex justify-evenly">
             <li class="flex items-center">
-                <UIcon name="mdi:shield-check-outline" class="inline-block mr-2" />
+                <UIcon name="ph:lock-key-duotone" class="inline-block mr-2" />
                 <p>
                     Secure Processing
                 </p>
