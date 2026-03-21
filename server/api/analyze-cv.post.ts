@@ -1,13 +1,14 @@
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import { createPartFromUri, GoogleGenAI } from '@google/genai'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
-  const { cvText } = await readBody<{ cvText?: string }>(event)
+  const files = await readMultipartFormData(event)
+  const uploadedFile = files?.find(file => file.name === 'cv')
 
-  if (!cvText?.trim()) {
+  if (!uploadedFile?.data?.length) {
     throw createError({
       statusCode: 400,
-      statusMessage: 'CV text is required.',
+      statusMessage: 'A CV file is required.',
     })
   }
 
@@ -18,22 +19,51 @@ export default defineEventHandler(async (event) => {
     })
   }
 
-  const genAI = new GoogleGenerativeAI(config.geminiApiKey)
-  const model = genAI.getGenerativeModel({
-    model: 'gemini-2.5-flash',
+  const mimeType = uploadedFile.type || 'application/pdf'
+  if (mimeType !== 'application/pdf') {
+    throw createError({
+      statusCode: 400,
+      statusMessage: 'Only PDF CV files are supported.',
+    })
+  }
+
+  const ai = new GoogleGenAI({ apiKey: config.geminiApiKey })
+  const fileBytes = new Uint8Array(uploadedFile.data)
+  const fileBlob = new Blob([fileBytes], { type: mimeType })
+  const geminiFile = await ai.files.upload({
+    file: fileBlob,
+    config: {
+      mimeType,
+      displayName: uploadedFile.filename || 'cv.pdf',
+    },
   })
 
-  const prompt = [
-    'Analyze the following CV and provide concise feedback.',
-    'Cover strengths, gaps, and suggested improvements.',
-    '',
-    cvText,
-  ].join('\n')
+  let processedFile = geminiFile
+  while (processedFile.state === 'PROCESSING') {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    processedFile = await ai.files.get({ name: processedFile.name! })
+  }
 
-  const result = await model.generateContent(prompt)
-  const response = await result.response
+  if (processedFile.state === 'FAILED' || !processedFile.uri || !processedFile.mimeType) {
+    throw createError({
+      statusCode: 502,
+      statusMessage: 'Gemini could not process the uploaded PDF.',
+    })
+  }
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: [
+      'Analyze this CV and provide concise feedback covering strengths, gaps, and suggested improvements.',
+      createPartFromUri(processedFile.uri, processedFile.mimeType),
+    ],
+  })
+
+  if (processedFile.name) {
+    await ai.files.delete({ name: processedFile.name }).catch(() => {})
+  }
 
   return {
-    analysis: response.text(),
+    analysis: response.text || '',
   }
 })

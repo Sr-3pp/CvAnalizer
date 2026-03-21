@@ -4,21 +4,20 @@ const analysis = ref('')
 const errorMessage = ref('')
 const isLoading = ref(false)
 
-
 const handleAnalize = async () => {
-  if (!cv.value) return;
+  if (!cv.value) return
 
   isLoading.value = true
   errorMessage.value = ''
   analysis.value = ''
 
   try {
-    const text = await cv.value.text()
+    const formData = new FormData()
+    formData.append('cv', cv.value)
+
     const response = await $fetch<{ analysis: string }>('/api/analyze-cv', {
       method: 'POST',
-      body: {
-        cvText: text,
-      },
+      body: formData,
     })
 
     analysis.value = response.analysis
@@ -36,7 +35,7 @@ const handleAnalize = async () => {
 <template>
   <UCard>
     <div class="space-y-4">
-      <UFileUpload v-model="cv" />
+      <UFileUpload v-model="cv" accept=".pdf,application/pdf" />
       <UButton :loading="isLoading" @click="handleAnalize">
         Analyze
       </UButton>
