@@ -2,11 +2,11 @@
 const navItems = [
   {
     label: 'Overview',
-    to: '#cv-analyzer',
+    href: '#cv-analyzer',
   },
   {
     label: 'Results',
-    to: '#analysis-results',
+    href: '#analysis-results',
   },
 ]
 </script>
@@ -32,16 +32,13 @@ const navItems = [
           </div>
 
           <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
-            <ul class="flex flex-wrap items-center gap-2 text-sm font-medium">
-              <li v-for="item in navItems" :key="item.label">
-                <a
-                  :href="item.to"
-                  class="inline-flex items-center rounded-full px-4 py-2 transition"
-                >
-                  {{ item.label }}
-                </a>
-              </li>
-            </ul>
+            <UNavigationMenu
+              :items="navItems"
+              highlight
+              variant="pill"
+              color="neutral"
+              class="text-sm font-medium"
+            />
 
             <div class="flex items-center gap-3">
               <UBadge class="rounded-full px-3 py-1 font-semibold uppercase" color="neutral" variant="soft">
