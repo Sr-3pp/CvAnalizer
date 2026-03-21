@@ -1,6 +1,7 @@
 <template>
   <UApp>
+    <Navigation />
     <NuxtRouteAnnouncer />
-    <AnalizeCv />
+    <Analizer />
   </UApp>
 </template>

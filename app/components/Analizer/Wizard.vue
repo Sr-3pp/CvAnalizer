@@ -1,6 +1,11 @@
 <script setup lang="ts">
+import type { AnalysisResults } from '~~/types/results'
+
+const emit = defineEmits<{
+  'set-results': [results: AnalysisResults]
+}>()
+
 const cv = ref<File | null>(null)
-const analysis = ref('')
 const errorMessage = ref('')
 const isLoading = ref(false)
 
@@ -9,18 +14,17 @@ const handleAnalize = async () => {
 
   isLoading.value = true
   errorMessage.value = ''
-  analysis.value = ''
 
   try {
     const formData = new FormData()
     formData.append('cv', cv.value)
 
-    const response = await $fetch<{ analysis: string }>('/api/analyze-cv', {
+    const response = await $fetch<AnalysisResults>('/api/analyze-cv', {
       method: 'POST',
       body: formData,
     })
 
-    analysis.value = response.analysis
+    emit('set-results', response)
   }
   catch (error) {
     errorMessage.value = error instanceof Error ? error.message : 'Unable to analyze the CV.'
@@ -33,11 +37,10 @@ const handleAnalize = async () => {
 </script>
 
 <template>
-  <UCard>
-    <div class="space-y-4">
-      <UFileUpload v-model="cv" accept=".pdf,application/pdf" />
-      <UButton :loading="isLoading" @click="handleAnalize">
-        Analyze
+    <div class="space-y-4 flex flex-col items-center">
+      <UFileUpload v-model="cv" accept=".pdf,application/pdf" label="Drop your PDF here." description="SUPPORTED FORMATS: PDF ONLY (MAX 5MB)" />
+      <UButton class="mx-auto" :loading="isLoading" @click="handleAnalize">
+        Analyze Resume
       </UButton>
       <UAlert
         v-if="errorMessage"
@@ -45,10 +48,5 @@ const handleAnalize = async () => {
         variant="soft"
         :title="errorMessage"
       />
-      <p v-if="analysis" class="whitespace-pre-wrap text-sm">
-        {{ analysis }}
-      </p>
     </div>
-  </UCard>
-
 </template>
