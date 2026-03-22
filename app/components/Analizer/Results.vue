@@ -6,10 +6,21 @@ const props = defineProps<{
 }>()
 
 const isDownloading = ref(false)
+const isShortlisted = ref(false)
 
 const candidateInitials = computed(() => {
   const parts = props.results.candidate.name.trim().split(/\s+/).filter(Boolean)
   return parts.slice(0, 2).map(part => part[0]?.toUpperCase() || '').join('') || 'CV'
+})
+
+const shortlistStorageKey = computed(() => {
+  const identity = [
+    props.results.candidate.name,
+    props.results.candidate.current_title,
+    props.results.candidate.location,
+  ].join('|')
+
+  return `hirelens:shortlist:${identity.toLowerCase()}`
 })
 
 const sanitizePdfText = (value: string) => value
@@ -221,6 +232,29 @@ const downloadReport = () => {
     isDownloading.value = false
   }
 }
+
+const loadShortlistState = () => {
+  if (import.meta.server) {
+    return
+  }
+
+  isShortlisted.value = localStorage.getItem(shortlistStorageKey.value) === 'true'
+}
+
+const toggleShortlist = () => {
+  if (import.meta.server) {
+    return
+  }
+
+  isShortlisted.value = !isShortlisted.value
+  localStorage.setItem(shortlistStorageKey.value, String(isShortlisted.value))
+}
+
+onMounted(loadShortlistState)
+
+watch(shortlistStorageKey, () => {
+  loadShortlistState()
+})
 </script>
 
 <template>
@@ -240,8 +274,8 @@ const downloadReport = () => {
           <UButton variant="outline" :loading="isDownloading" @click="downloadReport">
             Download Match Report
           </UButton>
-          <UButton>
-            Shortlist Candidate
+          <UButton :variant="isShortlisted ? 'solid' : 'outline'" @click="toggleShortlist">
+            {{ isShortlisted ? 'Shortlisted' : 'Shortlist Candidate' }}
           </UButton>
         </div>
       </div>
@@ -299,9 +333,14 @@ const downloadReport = () => {
             {{ candidateInitials }}
           </div>
           <div>
-            <p class="font-semibold text-lg">
-              {{ results.candidate.name }}
-            </p>
+            <div class="flex items-center gap-2">
+              <p class="font-semibold text-lg">
+                {{ results.candidate.name }}
+              </p>
+              <UBadge v-if="isShortlisted" color="success" variant="soft">
+                Shortlisted
+              </UBadge>
+            </div>
             <p class="text-sm text-muted">
               {{ results.candidate.current_title }}
             </p>
