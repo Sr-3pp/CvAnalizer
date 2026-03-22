@@ -11,7 +11,11 @@ type GeminiAnalysisInput = {
 }
 
 const uploadResumeFile = async (ai: GoogleGenAI, fileName: string, fileData: Uint8Array, mimeType: string) => {
-  const fileBlob = new Blob([fileData], { type: mimeType })
+  const fileBuffer = fileData.buffer.slice(
+    fileData.byteOffset,
+    fileData.byteOffset + fileData.byteLength,
+  )
+  const fileBlob = new Blob([fileBuffer], { type: mimeType })
 
   return ai.files.upload({
     file: fileBlob,
