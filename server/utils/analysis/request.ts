@@ -1,14 +1,9 @@
 import type { H3Event } from 'h3'
-
-export type AnalysisRequestPayload = {
-  uploadedFile: NonNullable<Awaited<ReturnType<typeof readMultipartFormData>>>[number]
-  jobDescription: string
-  mimeType: string
-}
+import type { AnalysisRequestPayload, MultipartAnalysisFile } from '~~/types/analysis'
 
 export const readAnalysisRequest = async (event: H3Event): Promise<AnalysisRequestPayload> => {
   const files = await readMultipartFormData(event)
-  const uploadedFile = files?.find(file => file.name === 'cv')
+  const uploadedFile = files?.find(file => file.name === 'cv') as MultipartAnalysisFile | undefined
   const jobDescriptionField = files?.find(file => file.name === 'jobDescription')
   const jobDescription = jobDescriptionField?.data ? Buffer.from(jobDescriptionField.data).toString('utf8').trim() : ''
 

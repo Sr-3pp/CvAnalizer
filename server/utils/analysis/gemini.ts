@@ -1,21 +1,11 @@
 import { createPartFromUri, GoogleGenAI } from '@google/genai'
+import type { GeminiAnalysisInput } from '~~/types/analysis'
 import { analysisResultsSchema } from './schema'
 import { buildAnalysisPrompt } from './prompt'
 
-type GeminiAnalysisInput = {
-  apiKey: string
-  fileName: string
-  fileData: Uint8Array
-  mimeType: string
-  jobDescription: string
-}
-
 const uploadResumeFile = async (ai: GoogleGenAI, fileName: string, fileData: Uint8Array, mimeType: string) => {
-  const fileBuffer = fileData.buffer.slice(
-    fileData.byteOffset,
-    fileData.byteOffset + fileData.byteLength,
-  )
-  const fileBlob = new Blob([fileBuffer], { type: mimeType })
+  const fileBytes = Uint8Array.from(fileData)
+  const fileBlob = new Blob([fileBytes], { type: mimeType })
 
   return ai.files.upload({
     file: fileBlob,
