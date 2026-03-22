@@ -17,7 +17,7 @@
                 HireLens
               </NuxtLink>
               <p class="text-sm">
-                Precision resume scoring with AI document review
+                Evidence-based recruiter screening for structured candidate review
               </p>
             </div>
           </div>
@@ -25,7 +25,7 @@
           <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
             <div class="flex items-center gap-3">
               <UBadge class="rounded-full px-3 py-1 font-semibold uppercase" color="neutral" variant="soft">
-                AI Powered
+                Recruiter Dashboard
               </UBadge>
 
               <UColorModeSwitch />

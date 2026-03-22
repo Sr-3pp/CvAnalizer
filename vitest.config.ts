@@ -27,8 +27,10 @@ export default defineConfig({
       }),
     ],
     coverage: {
-      enabled: true,
       provider: 'v8',
+      reportsDirectory: './coverage',
+      tempDirectory: './coverage/.tmp',
+      clean: false,
     },
   },
 })

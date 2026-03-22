@@ -1,75 +1,82 @@
-# Nuxt Minimal Starter
+# HireLens
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+HireLens is a recruiter-facing screening dashboard that compares a candidate resume against recruiter input and returns a structured, evidence-based hiring report.
 
-## Setup
+The app is not a generic CV scorer and it is not a final hiring decision system. It is a decision-support tool for structured screening.
 
-Make sure to install dependencies:
+## Core flow
+
+1. A recruiter pastes a job description or recruiter prompt.
+2. A recruiter uploads a PDF resume.
+3. The server sends the recruiter input plus resume content to Gemini.
+4. Gemini returns a strict dashboard-shaped JSON response.
+5. The UI renders match score, comparison areas, recruiter assessment, signals, interview focus, shortlist state, and a downloadable PDF report.
+
+## Environment
+
+Create a `.env` file with:
 
 ```bash
-# npm
-npm install
+NUXT_GEMINI_API=your_gemini_api_key
+NUXT_PUBLIC_SITE_URL=http://localhost:3000
+NUXT_PUBLIC_SITE_NAME=HireLens
+```
 
-# pnpm
+## Development
+
+Install dependencies:
+
+```bash
 pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
 ```
 
-## Development Server
-
-Start the development server on `http://localhost:3000`:
+Start the dev server:
 
 ```bash
-# npm
-npm run dev
-
-# pnpm
 pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
 ```
 
-## Production
-
-Build the application for production:
+Build for production:
 
 ```bash
-# npm
-npm run build
-
-# pnpm
 pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
 ```
 
-Locally preview production build:
+Preview the production build:
 
 ```bash
-# npm
-npm run preview
-
-# pnpm
 pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+## Testing
+
+Run all Vitest projects:
+
+```bash
+pnpm test
+```
+
+Run unit tests only:
+
+```bash
+pnpm test:unit
+```
+
+Run Nuxt component tests:
+
+```bash
+pnpm test:nuxt
+```
+
+Run Playwright end-to-end tests:
+
+```bash
+pnpm test:e2e
+```
+
+## Project notes
+
+- The dashboard response shape is defined in `types/results.ts`.
+- The `/api/analyze-cv` endpoint expects multipart fields `cv` and `jobDescription`.
+- Shortlist state is stored client-side in `localStorage`.
+- PDF export is dependency-free and generates a text-based match report.
