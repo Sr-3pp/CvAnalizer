@@ -1,147 +1,173 @@
 <script setup lang="ts">
 import type { AnalysisResults } from '~~/types/results'
-defineProps<{
-    results: AnalysisResults
+
+const props = defineProps<{
+  results: AnalysisResults
 }>()
+
+const candidateInitials = computed(() => {
+  const parts = props.results.candidate.name.trim().split(/\s+/).filter(Boolean)
+  return parts.slice(0, 2).map(part => part[0]?.toUpperCase() || '').join('') || 'CV'
+})
 </script>
 
 <template>
-    <div class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
-            <h1 class="text-4xl font-bold">
-                Analysis Complete.
-            </h1>
-            <p>
-                Your profile has been curated with editorial precision. Here is how you stand against industry benchmarks.
-            </p>
+  <div class="flex flex-col gap-6">
+    <div class="flex flex-col gap-2">
+      <div class="w-full flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+        <div class="max-w-3xl">
+          <p class="text-xs">
+            CANDIDATE ANALYSIS
+          </p>
+          <h1 class="text-4xl font-bold text-secondary">
+            Job Match Analysis
+          </h1>
         </div>
 
-        <UPageGrid :ui="
-            {
-                base: 'grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6',
-            }
-        ">
-            <AnalizerOverallScore :score="results.overallScore" />
-
-            <UCard
-                class="md:col-span-2"
-                :ui="{
-                    body: 'h-full flex flex-col'
-                }"
-            
-            >
-                <p class="font-bold text-2xl mb-2">
-                    Executive Summary
-                </p>
-
-                <p class="mb-6">
-                    {{ results.executiveSummary }}
-                </p>
-
-                <ul class="flex items-center gap-4 w-full mt-auto">
-                    <li class="w-full sm:w-1/3">
-                        <p class="flex items-center gap-2">
-                            <UIcon name="system-uicons:document" class="inline-block" />
-                            <span>
-                                READABILITY
-                            </span>
-                        </p>
-                        <UProgress v-model="results.readability" class="inline-block" />
-                        <small>
-                            {{ results.readability }}%
-                        </small>
-                    </li>
-                    <li class="w-full sm:w-1/3">
-                        <p class="flex items-center gap-2">
-                            <UIcon name="zmdi:search-in-file" class="inline-block" />
-                            <span>
-                                KEYWORD Match
-                            </span>
-                        </p>
-                        <UProgress v-model="results.keywordMatch" class="inline-block" />
-                        <small>
-                            {{ results.keywordMatch }}%
-                        </small>
-                    </li>
-                    <li class="w-full sm:w-1/3">
-                        <p class="flex items-center gap-2">
-                            <UIcon name="ph:chart-line-up" class="inline-block" />
-                            <span>
-                                Impact score
-                            </span>
-                        </p>
-                        <UProgress v-model="results.impactScore" class="inline-block" />
-                        <small>
-                            {{ results.impactScore }}%
-                        </small>
-                    </li>
-                </ul>
-            </UCard>
-        </UPageGrid>
-
-        <UPageGrid :ui="
-            {
-                base: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6',
-            }
-        ">
-            <UCard>
-                <h3 class="mb-3 text-xl font-semibold flex items-center">
-                    <UIcon name="ph:shield-check-bold" class="inline-block mr-2" />
-                    Key Strengths
-                </h3>
-
-                <ul class="flex flex-col gap-2">
-                    <li class="flex gap-2" v-for="strength in results.keyStrengths" :key="strength">
-                        <UIcon name="mdi:check-circle-outline" class="inline-block flex-shrink-0 mt-1" />
-                        <p>
-                            {{ strength }}
-                        </p>
-                    </li>
-                </ul>
-            </UCard>
-
-            <UCard>
-                <h3 class="mb-3 text-xl font-semibold flex items-center">
-                    <UIcon name="ph:lightbulb-filament-fill" class="inline-block mr-2" />
-                    Growth Opportunities
-                </h3>
-
-                <ul class="flex flex-col gap-2">
-                    <li class="flex gap-2" v-for="opportunity in results.growthOpportunities" :key="opportunity">
-                        <UIcon name="ph:info" class="inline-block flex-shrink-0 mt-1" />
-                        <p>
-                            {{ opportunity }}
-                        </p>
-                    </li>
-                </ul>
-            </UCard>
-        </UPageGrid>
-
-        <UCard 
-            :ui="{
-                body: 'flex gap-4'
-            }"
-        >
-            <div>
-                <h2 class="text-xl font-bold">
-                    Ready to optimize?
-                </h2>
-                <p>
-                    Our AI can automatically rewrite your summary and skills section for a perfect 100/100 match.
-                </p>
-            </div>
-            <ul class="flex items-center gap-6 ml-auto">
-                <li>
-                    <UButton>
-                        Optimize Summary
-                    </UButton>
-                </li>
-                <li>
-                    <UButton color="secondary">
-                        Download Report
-                    </UButton>
-                </li>
-            </ul>
-        </UCard>
+        <div class="flex gap-3">
+          <UButton variant="outline">
+            Download Match Report
+          </UButton>
+          <UButton>
+            Shortlist Candidate
+          </UButton>
+        </div>
+      </div>
     </div>
+
+    <UPageGrid :ui="{ base: 'grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-6' }">
+      <AnalizerOverallScore
+        :score="results.match.score"
+        :label="results.match.label"
+        :summary="results.match.summary"
+      />
+
+      <UCard :ui="{ body: 'flex flex-col gap-6' }">
+        <p class="font-bold text-2xl text-secondary">
+          Comparison Matrix
+        </p>
+
+        <ul class="flex flex-col gap-6">
+          <li
+            v-for="area in results.evaluation_areas"
+            :key="`${area.category}-${area.level}`"
+            class="grid gap-4 xl:grid-cols-[1.4fr_minmax(240px,1fr)]"
+          >
+            <div>
+              <p class="text-xs uppercase tracking-wide text-muted mb-2">
+                {{ area.category }}
+              </p>
+              <ul v-if="area.items.length" class="flex flex-wrap gap-2 mb-3">
+                <li v-for="item in area.items" :key="item">
+                  <UBadge color="secondary" variant="soft">
+                    {{ item }}
+                  </UBadge>
+                </li>
+              </ul>
+              <p class="text-sm">
+                {{ area.evidence }}
+              </p>
+            </div>
+
+            <div class="flex items-center gap-3">
+              <UProgress :model-value="area.score" class="flex-1" />
+              <span class="min-w-20 text-sm font-semibold text-secondary text-right">
+                {{ area.level }}
+              </span>
+            </div>
+          </li>
+        </ul>
+      </UCard>
+    </UPageGrid>
+
+    <UPageGrid :ui="{ base: 'grid-cols-1 xl:grid-cols-[320px_minmax(0,1fr)] gap-6' }">
+      <UCard>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="flex size-14 items-center justify-center rounded-xl bg-accented text-lg font-bold text-secondary">
+            {{ candidateInitials }}
+          </div>
+          <div>
+            <p class="font-semibold text-lg">
+              {{ results.candidate.name }}
+            </p>
+            <p class="text-sm text-muted">
+              {{ results.candidate.current_title }}
+            </p>
+          </div>
+        </div>
+
+        <ul class="flex flex-col divide-y divide-default">
+          <li class="flex items-center justify-between py-3 gap-4">
+            <span class="text-sm text-muted">Location</span>
+            <span class="text-sm font-medium text-right">{{ results.candidate.location }}</span>
+          </li>
+          <li class="flex items-center justify-between py-3 gap-4">
+            <span class="text-sm text-muted">Experience</span>
+            <span class="text-sm font-medium text-right">{{ results.candidate.experience_years }} years</span>
+          </li>
+          <li class="flex items-center justify-between py-3 gap-4">
+            <span class="text-sm text-muted">Availability</span>
+            <span class="text-sm font-medium text-right">{{ results.candidate.availability }}</span>
+          </li>
+        </ul>
+      </UCard>
+
+      <UCard :ui="{ body: 'flex flex-col gap-5' }">
+        <p class="font-bold text-xl text-secondary">
+          Recruiter Assessment
+        </p>
+
+        <p>
+          {{ results.assessment.summary }}
+        </p>
+
+        <ul class="flex flex-col gap-3">
+          <li v-for="item in results.assessment.strengths" :key="`strength-${item}`" class="flex gap-2">
+            <UIcon name="mdi:check-circle-outline" class="inline-block flex-shrink-0 mt-1 text-secondary" />
+            <p>{{ item }}</p>
+          </li>
+          <li v-for="item in results.assessment.gaps" :key="`gap-${item}`" class="flex gap-2">
+            <UIcon name="ph:warning-circle" class="inline-block flex-shrink-0 mt-1 text-amber-500" />
+            <p>{{ item }}</p>
+          </li>
+          <li v-for="item in results.assessment.risks" :key="`risk-${item}`" class="flex gap-2">
+            <UIcon name="ph:warning" class="inline-block flex-shrink-0 mt-1 text-red-500" />
+            <p>{{ item }}</p>
+          </li>
+        </ul>
+      </UCard>
+    </UPageGrid>
+
+    <UPageGrid :ui="{ base: 'grid-cols-1 md:grid-cols-3 gap-6' }">
+      <UCard v-for="signal in results.signals" :key="signal.label">
+        <div class="flex items-start gap-3">
+          <div class="flex size-10 items-center justify-center rounded-lg bg-accented text-secondary">
+            <UIcon name="ph:trend-up-bold" />
+          </div>
+          <div>
+            <p class="text-xs uppercase tracking-wide text-muted">
+              {{ signal.label }}
+            </p>
+            <p class="text-lg font-semibold">
+              {{ signal.value }}
+            </p>
+          </div>
+        </div>
+      </UCard>
+    </UPageGrid>
+
+    <UCard>
+      <h2 class="text-xl font-bold mb-3">
+        Interview Focus
+      </h2>
+      <ul class="flex flex-col gap-3">
+        <li v-for="item in results.interview_focus" :key="item" class="flex gap-2">
+          <UIcon name="ph:question-bold" class="inline-block flex-shrink-0 mt-1 text-secondary" />
+          <p>
+            {{ item }}
+          </p>
+        </li>
+      </ul>
+    </UCard>
+  </div>
 </template>

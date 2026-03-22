@@ -12,18 +12,18 @@ const navItems = [
 </script>
 
 <template>
-  <header class="sticky top-0 z-30 px-4 pt-4 sm:px-6">
+  <header class="sticky top-0 z-30 backdrop-blur-xl bg-black/6 dark:bg-white/6">
     <UContainer>
-      <nav class="rounded-[1.75rem] border px-5 py-4 backdrop-blur-xl">
+      <nav class="px-5 py-4">
         <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div class="flex items-center gap-4">
             <div class="flex h-12 w-12 items-center justify-center rounded-2xl text-lg font-black tracking-wide">
-              CV
+              HL
             </div>
 
             <div>
               <NuxtLink to="/" class="text-lg font-semibold uppercase">
-                CV Analizer
+                HireLens
               </NuxtLink>
               <p class="text-sm">
                 Precision resume scoring with AI document review
@@ -45,12 +45,7 @@ const navItems = [
                 AI Powered
               </UBadge>
 
-              <a
-                href="#cv-analyzer"
-                class="inline-flex items-center rounded-full px-5 text-sm font-semibold transition"
-              >
-                Analyze Resume
-              </a>
+              <UColorModeSwitch />
             </div>
           </div>
         </div>

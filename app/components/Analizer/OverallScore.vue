@@ -1,6 +1,8 @@
 <script setup lang="ts">
 const props = defineProps<{
   score: number
+  label?: string
+  summary?: string
 }>()
 
 const normalizedScore = computed(() => Math.min(100, Math.max(0, Math.round(props.score))))
@@ -9,19 +11,23 @@ const circumference = 2 * Math.PI * radius
 const dashOffset = computed(() => circumference * (1 - normalizedScore.value / 100))
 
 const scoreLabel = computed(() => {
+  if (props.label) {
+    return props.label
+  }
+
   if (normalizedScore.value >= 85) {
-    return 'Optimized & Ready'
+    return 'Strong Interview Case'
   }
 
   if (normalizedScore.value >= 70) {
-    return 'Strong Foundation'
+    return 'Promising Match'
   }
 
   if (normalizedScore.value >= 50) {
-    return 'Needs Refinement'
+    return 'Mixed Evidence'
   }
 
-  return 'Requires Major Work'
+  return 'Low Match Confidence'
 })
 </script>
 
@@ -30,7 +36,7 @@ const scoreLabel = computed(() => {
     <div class="flex flex-col items-center gap-7 text-center">
       <div class="space-y-1">
         <p class="text-xs font-semibold uppercase">
-          Overall Score
+          Match Score
         </p>
       </div>
 
@@ -71,6 +77,10 @@ const scoreLabel = computed(() => {
       <div class="rounded-2xl px-8 py-4 text-lg font-semibold">
         {{ scoreLabel }}
       </div>
+
+      <p v-if="summary" class="text-sm max-w-xs text-muted text-left text-balance">
+        {{ summary }}
+      </p>
     </div>
   </UCard>
 </template>
