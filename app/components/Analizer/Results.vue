@@ -65,7 +65,7 @@ const wrapPdfText = (text: string, maxLength = 88) => {
   return lines
 }
 
-const buildPdfLines = (results: AnalysisResults) => {
+const buildPdfLines = (results: AnalysisResults, shortlisted: boolean) => {
   const lines: string[] = [
     'Candidate Analysis Report',
     '',
@@ -74,6 +74,7 @@ const buildPdfLines = (results: AnalysisResults) => {
     `Location: ${results.candidate.location}`,
     `Experience: ${results.candidate.experience_years} years`,
     `Availability: ${results.candidate.availability}`,
+    `Shortlist Status: ${shortlisted ? 'Shortlisted' : 'Not Shortlisted'}`,
     '',
     `Match Score: ${results.match.score}/100`,
     `Match Label: ${results.match.label}`,
@@ -212,7 +213,7 @@ const downloadReport = () => {
   isDownloading.value = true
 
   try {
-    const pdfLines = buildPdfLines(props.results)
+    const pdfLines = buildPdfLines(props.results, isShortlisted.value)
     const pdfBlob = createPdfBlob(pdfLines)
     const url = URL.createObjectURL(pdfBlob)
     const link = document.createElement('a')
@@ -222,7 +223,7 @@ const downloadReport = () => {
       .replace(/^-+|-+$/g, '') || 'candidate'
 
     link.href = url
-    link.download = `${slug}-match-report.pdf`
+    link.download = `${slug}${isShortlisted.value ? '-shortlisted' : ''}-match-report.pdf`
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)

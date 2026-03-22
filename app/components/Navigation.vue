@@ -1,14 +1,5 @@
 <script setup lang="ts">
-const navItems = [
-  {
-    label: 'Overview',
-    href: '#cv-analyzer',
-  },
-  {
-    label: 'Results',
-    href: '#analysis-results',
-  },
-]
+
 </script>
 
 <template>
@@ -32,14 +23,6 @@ const navItems = [
           </div>
 
           <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
-            <UNavigationMenu
-              :items="navItems"
-              highlight
-              variant="pill"
-              color="neutral"
-              class="text-sm font-medium"
-            />
-
             <div class="flex items-center gap-3">
               <UBadge class="rounded-full px-3 py-1 font-semibold uppercase" color="neutral" variant="soft">
                 AI Powered
