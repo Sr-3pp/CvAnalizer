@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "subtitle": "Evidence-based recruiter screening for structured candidate review",
+    "badge": "Recruiter Dashboard",
+    "language": "Language",
+    "english": "English",
+    "spanish": "Spanish"
+  },
+  "welcome": {
+    "badge": "Recruiter Screening",
+    "title": "Screen Candidates With Clear Evidence.",
+    "description": "Paste the role requirements, upload a resume, and get a structured screening analysis that highlights fit, gaps, risks, and follow-up questions.",
+    "signals": {
+      "secure": "Secure Processing",
+      "fast": "Fast Screening",
+      "evidence": "Evidence First"
+    },
+    "carousel": {
+      "matching": {
+        "title": "Evidence-Based Matching",
+        "description": "Each requirement is compared against resume evidence so recruiters can see what is clearly matched and what is missing or unclear."
+      },
+      "scores": {
+        "title": "Structured, Explainable Scores",
+        "description": "Scores are broken down by technical fit, experience relevance, seniority alignment, communication clarity, and confidence."
+      },
+      "nextSteps": {
+        "title": "Recruiter-Ready Next Steps",
+        "description": "Get a clear recommendation, strengths, risks, and targeted follow-up interview questions to support consistent pre-screening decisions."
+      }
+    },
+    "panel": {
+      "title": "Structured Pre-Screening",
+      "description": "Support recruiter decisions with role-based analysis grounded in visible resume evidence, not vague AI scoring.",
+      "link": "Learn more about our process"
+    }
+  },
+  "wizard": {
+    "step1": "Step 1: Paste Role Requirements",
+    "step2": "Step 2: Upload Candidate Resume",
+    "placeholder": "Paste the job description or recruiter prompt. Include required criteria, preferred criteria, responsibilities, and context for the role...",
+    "uploadLabel": "Drop your PDF here.",
+    "uploadDescription": "SUPPORTED FORMATS: PDF ONLY (MAX 5MB)",
+    "readyTitle": "Ready to Screen?",
+    "readyDescription": "The analysis compares recruiter requirements against the submitted resume and returns structured screening guidance.",
+    "submit": "Run Screening Analysis",
+    "errors": {
+      "missingInputs": "Add a job description and upload a PDF resume.",
+      "analyzeFailed": "Unable to analyze the resume."
+    }
+  },
+  "results": {
+    "kicker": "CANDIDATE ANALYSIS",
+    "title": "Job Match Analysis",
+    "download": "Download Match Report",
+    "shortlist": "Shortlist Candidate",
+    "shortlisted": "Shortlisted",
+    "matchScore": "Match Score",
+    "comparisonMatrix": "Comparison Matrix",
+    "recruiterAssessment": "Recruiter Assessment",
+    "candidateFields": {
+      "location": "Location",
+      "experience": "Experience",
+      "availability": "Availability",
+      "years": "years"
+    },
+    "interviewFocus": "Interview Focus",
+    "fallbackLabels": {
+      "strongInterviewCase": "Strong Interview Case",
+      "promisingMatch": "Promising Match",
+      "mixedEvidence": "Mixed Evidence",
+      "lowMatchConfidence": "Low Match Confidence"
+    }
+  },
+  "pdf": {
+    "reportTitle": "Candidate Analysis Report",
+    "candidate": "Candidate",
+    "title": "Title",
+    "location": "Location",
+    "experience": "Experience",
+    "availability": "Availability",
+    "yearsSuffix": "years",
+    "shortlistStatus": "Shortlist Status",
+    "shortlisted": "Shortlisted",
+    "notShortlisted": "Not Shortlisted",
+    "matchScore": "Match Score",
+    "matchLabel": "Match Label",
+    "summary": "Summary",
+    "evaluationAreas": "Evaluation Areas",
+    "items": "Items",
+    "evidence": "Evidence",
+    "assessment": "Assessment",
+    "strengths": "Strengths",
+    "gaps": "Gaps",
+    "risks": "Risks",
+    "signals": "Signals",
+    "interviewFocus": "Interview Focus",
+    "fileSuffix": "match-report",
+    "shortlistedFileSuffix": "shortlisted"
+  }
+}

@@ -1,3 +1,5 @@
+import type { AppLocaleCode } from './i18n'
+
 export type MultipartAnalysisFile = {
   name?: string
   filename?: string
@@ -9,6 +11,7 @@ export type AnalysisRequestPayload = {
   uploadedFile: MultipartAnalysisFile
   jobDescription: string
   mimeType: string
+  locale: AppLocaleCode
 }
 
 export type GeminiAnalysisInput = {
@@ -17,4 +20,5 @@ export type GeminiAnalysisInput = {
   fileData: Uint8Array
   mimeType: string
   jobDescription: string
+  locale: AppLocaleCode
 }

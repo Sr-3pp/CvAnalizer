@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AnalysisResults } from '~~/types/results'
 
+const { t } = useI18n()
+
 defineProps<{
   assessment: AnalysisResults['assessment']
 }>()
@@ -9,7 +11,7 @@ defineProps<{
 <template>
   <UCard :ui="{ body: 'flex flex-col gap-5' }">
     <p class="font-bold text-xl text-secondary">
-      Recruiter Assessment
+      {{ t('results.recruiterAssessment') }}
     </p>
 
     <p>

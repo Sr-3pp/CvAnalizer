@@ -4,7 +4,7 @@ import { readAnalysisRequest } from '../utils/analysis/request'
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig(event)
-  const { uploadedFile, jobDescription, mimeType } = await readAnalysisRequest(event)
+  const { uploadedFile, jobDescription, mimeType, locale } = await readAnalysisRequest(event)
 
   if (!config.geminiApiKey) {
     throw createError({
@@ -19,6 +19,7 @@ export default defineEventHandler(async (event) => {
     fileData: new Uint8Array(uploadedFile.data),
     mimeType,
     jobDescription,
+    locale,
   })
 
   return normalizeAnalysisResults(rawAnalysis)

@@ -16,8 +16,23 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/image',
     '@nuxt/test-utils',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    '@nuxtjs/i18n'
   ],
+
+  i18n: {
+    strategy: 'no_prefix',
+    defaultLocale: 'en',
+    detectBrowserLanguage: false,
+    locales: [
+      { code: 'en', name: 'English', file: 'en.json' },
+      { code: 'es', name: 'Español', file: 'es.json' }
+    ],
+    langDir: 'locales',
+    bundle: {
+      optimizeTranslationDirective: false
+    }
+  },
 
   css: [
     '@/assets/css/main.css'

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 const props = defineProps<{
   score: number
   label?: string
@@ -16,18 +18,18 @@ const scoreLabel = computed(() => {
   }
 
   if (normalizedScore.value >= 85) {
-    return 'Strong Interview Case'
+    return t('results.fallbackLabels.strongInterviewCase')
   }
 
   if (normalizedScore.value >= 70) {
-    return 'Promising Match'
+    return t('results.fallbackLabels.promisingMatch')
   }
 
   if (normalizedScore.value >= 50) {
-    return 'Mixed Evidence'
+    return t('results.fallbackLabels.mixedEvidence')
   }
 
-  return 'Low Match Confidence'
+  return t('results.fallbackLabels.lowMatchConfidence')
 })
 </script>
 
@@ -36,7 +38,7 @@ const scoreLabel = computed(() => {
     <div class="flex flex-col items-center gap-7 text-center">
       <div class="space-y-1">
         <p class="text-xs font-semibold uppercase">
-          Match Score
+          {{ t('results.matchScore') }}
         </p>
       </div>
 

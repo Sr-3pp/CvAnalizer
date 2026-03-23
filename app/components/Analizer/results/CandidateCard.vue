@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { AnalysisResults } from '~~/types/results'
 
+const { t } = useI18n()
 const props = defineProps<{
   candidate: AnalysisResults['candidate']
   isShortlisted: boolean
@@ -24,7 +25,7 @@ const candidateInitials = computed(() => {
             {{ candidate.name }}
           </p>
           <UBadge v-if="isShortlisted" color="success" variant="soft">
-            Shortlisted
+            {{ t('results.shortlisted') }}
           </UBadge>
         </div>
         <p class="text-sm text-muted">
@@ -35,15 +36,15 @@ const candidateInitials = computed(() => {
 
     <ul class="flex flex-col divide-y divide-default">
       <li class="flex items-center justify-between py-3 gap-4">
-        <span class="text-sm text-muted">Location</span>
+        <span class="text-sm text-muted">{{ t('results.candidateFields.location') }}</span>
         <span class="text-sm font-medium text-right">{{ candidate.location }}</span>
       </li>
       <li class="flex items-center justify-between py-3 gap-4">
-        <span class="text-sm text-muted">Experience</span>
-        <span class="text-sm font-medium text-right">{{ candidate.experience_years }} years</span>
+        <span class="text-sm text-muted">{{ t('results.candidateFields.experience') }}</span>
+        <span class="text-sm font-medium text-right">{{ candidate.experience_years }} {{ t('results.candidateFields.years') }}</span>
       </li>
       <li class="flex items-center justify-between py-3 gap-4">
-        <span class="text-sm text-muted">Availability</span>
+        <span class="text-sm text-muted">{{ t('results.candidateFields.availability') }}</span>
         <span class="text-sm font-medium text-right">{{ candidate.availability }}</span>
       </li>
     </ul>

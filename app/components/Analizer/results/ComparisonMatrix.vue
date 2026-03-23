@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { AnalysisResults } from '~~/types/results'
 
+const { t } = useI18n()
+
 defineProps<{
   evaluationAreas: AnalysisResults['evaluation_areas']
 }>()
@@ -9,7 +11,7 @@ defineProps<{
 <template>
   <UCard :ui="{ body: 'flex flex-col gap-6' }">
     <p class="font-bold text-2xl text-secondary">
-      Comparison Matrix
+      {{ t('results.comparisonMatrix') }}
     </p>
 
     <ul class="flex flex-col gap-6">

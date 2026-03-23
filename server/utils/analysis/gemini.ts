@@ -40,6 +40,7 @@ export const generateAnalysis = async ({
   fileData,
   mimeType,
   jobDescription,
+  locale,
 }: GeminiAnalysisInput) => {
   const ai = new GoogleGenAI({ apiKey })
   const uploadedFile = await uploadResumeFile(ai, fileName, fileData, mimeType)
@@ -52,7 +53,7 @@ export const generateAnalysis = async ({
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: [
-        buildAnalysisPrompt(jobDescription),
+        buildAnalysisPrompt(jobDescription, locale),
         createPartFromUri(processedFile.uri!, processedFile.mimeType!),
       ],
       config: {

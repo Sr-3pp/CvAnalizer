@@ -1,13 +1,41 @@
 <script setup lang="ts">
 import type { AnalysisResults } from '~~/types/results'
+import type { PdfReportTranslations } from '~~/types/i18n'
 import { downloadAnalysisReport } from '~~/app/utils/pdf-report'
 
 const props = defineProps<{
   results: AnalysisResults
 }>()
 
+const { t } = useI18n()
 const isDownloading = ref(false)
 const { isShortlisted, toggleShortlist } = useShortlist(computed(() => props.results.candidate))
+const pdfTranslations = computed<PdfReportTranslations>(() => ({
+  reportTitle: t('pdf.reportTitle'),
+  candidate: t('pdf.candidate'),
+  title: t('pdf.title'),
+  location: t('pdf.location'),
+  experience: t('pdf.experience'),
+  availability: t('pdf.availability'),
+  yearsSuffix: t('pdf.yearsSuffix'),
+  shortlistStatus: t('pdf.shortlistStatus'),
+  shortlisted: t('pdf.shortlisted'),
+  notShortlisted: t('pdf.notShortlisted'),
+  matchScore: t('pdf.matchScore'),
+  matchLabel: t('pdf.matchLabel'),
+  summary: t('pdf.summary'),
+  evaluationAreas: t('pdf.evaluationAreas'),
+  items: t('pdf.items'),
+  evidence: t('pdf.evidence'),
+  assessment: t('pdf.assessment'),
+  strengths: t('pdf.strengths'),
+  gaps: t('pdf.gaps'),
+  risks: t('pdf.risks'),
+  signals: t('pdf.signals'),
+  interviewFocus: t('pdf.interviewFocus'),
+  fileSuffix: t('pdf.fileSuffix'),
+  shortlistedFileSuffix: t('pdf.shortlistedFileSuffix'),
+}))
 
 const downloadReport = () => {
   if (import.meta.server || isDownloading.value) {
@@ -17,7 +45,7 @@ const downloadReport = () => {
   isDownloading.value = true
 
   try {
-    downloadAnalysisReport(props.results, isShortlisted.value)
+    downloadAnalysisReport(props.results, isShortlisted.value, pdfTranslations.value)
   }
   finally {
     isDownloading.value = false

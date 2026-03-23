@@ -5,37 +5,39 @@ defineEmits<{
     'set-results': [results: AnalysisResults]
 }>()
 
-const carousel = [
+const { t } = useI18n()
+
+const carousel = computed(() => [
   {
     icon: 'mdi:file-document-search-outline',
-    title: 'Evidence-Based Matching',
-    description: 'Each requirement is compared against resume evidence so recruiters can see what is clearly matched and what is missing or unclear.',
+    title: t('welcome.carousel.matching.title'),
+    description: t('welcome.carousel.matching.description'),
   },
   {
     icon: 'mdi:tune-variant',
-    title: 'Structured, Explainable Scores',
-    description: 'Scores are broken down by technical fit, experience relevance, seniority alignment, communication clarity, and confidence.',
+    title: t('welcome.carousel.scores.title'),
+    description: t('welcome.carousel.scores.description'),
   },
   {
     icon: 'mdi:account-check-outline',
-    title: 'Recruiter-Ready Next Steps',
-    description: 'Get a clear recommendation, strengths, risks, and targeted follow-up interview questions to support consistent pre-screening decisions.',
+    title: t('welcome.carousel.nextSteps.title'),
+    description: t('welcome.carousel.nextSteps.description'),
   },
-]
+])
 </script>
 
 <template>
   <div class="flex flex-col gap-8">
     <UBadge class="mx-auto">
-      Recruiter Screening
+      {{ t('welcome.badge') }}
     </UBadge>
 
     <p class="text-6xl text-center font-bold">
-      Screen Candidates With <span class="text-secondary">Clear Evidence.</span>
+      {{ t('welcome.title') }}
     </p>
 
     <p class="text-center max-w-xl mx-auto">
-      Paste the role requirements, upload a resume, and get a structured screening analysis that highlights fit, gaps, risks, and follow-up questions.
+      {{ t('welcome.description') }}
     </p>
 
     <AnalizerWizard @set-results="$emit('set-results', $event)" />
@@ -44,19 +46,19 @@ const carousel = [
       <li class="flex items-center">
         <UIcon name="ph:lock-key-duotone" class="inline-block mr-2" />
         <p>
-          Secure Processing
+          {{ t('welcome.signals.secure') }}
         </p>
       </li>
       <li class="flex items-center">
         <UIcon name="mdi:lightning-bolt-outline" class="inline-block mr-2" />
         <p>
-          Fast Screening
+          {{ t('welcome.signals.fast') }}
         </p>
       </li>
       <li class="flex items-center">
         <UIcon name="mdi:shield-lock-outline" class="inline-block mr-2" />
         <p>
-          Evidence First
+          {{ t('welcome.signals.evidence') }}
         </p>
       </li>
     </ul>
@@ -88,15 +90,15 @@ const carousel = [
 
       <UCard class="bg-accented">
         <p class="text-xl font-bold mb-4">
-          Structured Pre-Screening
+          {{ t('welcome.panel.title') }}
         </p>
 
         <p class="mb-2">
-          Support recruiter decisions with role-based analysis grounded in visible resume evidence, not vague AI scoring.
+          {{ t('welcome.panel.description') }}
         </p>
 
         <NuxtLink to="/about" class="text-blue-500 hover:underline flex items-center">
-          Learn more about our process
+          {{ t('welcome.panel.link') }}
           <UIcon name="mdi:arrow-right" class="inline-block ml-1" />
         </NuxtLink>
       </UCard>

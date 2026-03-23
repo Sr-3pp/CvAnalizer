@@ -1,0 +1,101 @@
+{
+  "nav": {
+    "subtitle": "Evaluación estructurada para recruiters basada en evidencia",
+    "badge": "Panel de Reclutamiento",
+    "language": "Idioma",
+    "english": "Inglés",
+    "spanish": "Español"
+  },
+  "welcome": {
+    "badge": "Preselección de Candidatos",
+    "title": "Evalúa Candidatos Con Evidencia Clara.",
+    "description": "Pega los requisitos del puesto, sube un currículum y obtén un análisis estructurado que resalta ajuste, brechas, riesgos y preguntas de seguimiento.",
+    "signals": {
+      "secure": "Procesamiento Seguro",
+      "fast": "Evaluación Rápida",
+      "evidence": "Primero la Evidencia"
+    },
+    "carousel": {
+      "matching": {
+        "title": "Ajuste Basado en Evidencia",
+        "description": "Cada requisito se compara con evidencia del currículum para que recruitment vea qué coincide claramente y qué falta o no es concluyente."
+      },
+      "scores": {
+        "title": "Puntajes Estructurados y Explicables",
+        "description": "Los puntajes se desglosan por ajuste técnico, relevancia de experiencia, alineación de seniority, claridad de comunicación y confianza."
+      },
+      "nextSteps": {
+        "title": "Siguientes Pasos para Recruiting",
+        "description": "Obtén una recomendación clara, fortalezas, riesgos y preguntas de seguimiento para decisiones de preselección más consistentes."
+      }
+    },
+    "panel": {
+      "title": "Preselección Estructurada",
+      "description": "Apoya decisiones de reclutamiento con un análisis por rol basado en evidencia visible del currículum, no en puntajes vagos de IA.",
+      "link": "Conoce más sobre nuestro proceso"
+    }
+  },
+  "wizard": {
+    "step1": "Paso 1: Pega los requisitos del puesto",
+    "step2": "Paso 2: Sube el currículum del candidato",
+    "placeholder": "Pega la descripción del puesto o el prompt del recruiter. Incluye criterios requeridos, criterios deseables, responsabilidades y contexto del rol...",
+    "uploadLabel": "Suelta aquí tu PDF.",
+    "uploadDescription": "FORMATOS SOPORTADOS: SOLO PDF (MÁX 5MB)",
+    "readyTitle": "¿Listo para evaluar?",
+    "readyDescription": "El análisis compara los requisitos del recruiter con el currículum enviado y devuelve una guía estructurada de preselección.",
+    "submit": "Ejecutar análisis de preselección",
+    "errors": {
+      "missingInputs": "Agrega una descripción del puesto y sube un currículum en PDF.",
+      "analyzeFailed": "No fue posible analizar el currículum."
+    }
+  },
+  "results": {
+    "kicker": "ANÁLISIS DEL CANDIDATO",
+    "title": "Análisis de Ajuste al Puesto",
+    "download": "Descargar reporte",
+    "shortlist": "Preseleccionar candidato",
+    "shortlisted": "Preseleccionado",
+    "matchScore": "Puntaje de ajuste",
+    "comparisonMatrix": "Matriz comparativa",
+    "recruiterAssessment": "Evaluación de recruiting",
+    "candidateFields": {
+      "location": "Ubicación",
+      "experience": "Experiencia",
+      "availability": "Disponibilidad",
+      "years": "años"
+    },
+    "interviewFocus": "Enfoque de entrevista",
+    "fallbackLabels": {
+      "strongInterviewCase": "Buen caso para entrevista",
+      "promisingMatch": "Ajuste prometedor",
+      "mixedEvidence": "Evidencia mixta",
+      "lowMatchConfidence": "Baja confianza de ajuste"
+    }
+  },
+  "pdf": {
+    "reportTitle": "Reporte de análisis del candidato",
+    "candidate": "Candidato",
+    "title": "Título",
+    "location": "Ubicación",
+    "experience": "Experiencia",
+    "availability": "Disponibilidad",
+    "yearsSuffix": "años",
+    "shortlistStatus": "Estado de preselección",
+    "shortlisted": "Preseleccionado",
+    "notShortlisted": "No preseleccionado",
+    "matchScore": "Puntaje de ajuste",
+    "matchLabel": "Etiqueta de ajuste",
+    "summary": "Resumen",
+    "evaluationAreas": "Áreas de evaluación",
+    "items": "Elementos",
+    "evidence": "Evidencia",
+    "assessment": "Evaluación",
+    "strengths": "Fortalezas",
+    "gaps": "Brechas",
+    "risks": "Riesgos",
+    "signals": "Señales",
+    "interviewFocus": "Enfoque de entrevista",
+    "fileSuffix": "reporte-ajuste",
+    "shortlistedFileSuffix": "preseleccionado"
+  }
+}

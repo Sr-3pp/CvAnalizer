@@ -1,4 +1,6 @@
 <script setup lang="ts">
+const { t } = useI18n()
+
 defineProps<{
   items: string[]
 }>()
@@ -7,7 +9,7 @@ defineProps<{
 <template>
   <UCard>
     <h2 class="text-xl font-bold mb-3">
-      Interview Focus
+      {{ t('results.interviewFocus') }}
     </h2>
     <ul class="flex flex-col gap-3">
       <li v-for="item in items" :key="item" class="flex gap-2">

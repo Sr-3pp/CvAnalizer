@@ -1,5 +1,18 @@
 <script setup lang="ts">
+const { t, locale, setLocale } = useI18n()
 
+const languageItems = computed(() => [
+  {
+    label: 'English (EN)',
+    icon: locale.value === 'en' ? 'mdi:check' : 'mdi:translate',
+    onSelect: () => setLocale('en'),
+  },
+  {
+    label: 'Español (ES)',
+    icon: locale.value === 'es' ? 'mdi:check' : 'mdi:translate',
+    onSelect: () => setLocale('es'),
+  },
+])
 </script>
 
 <template>
@@ -17,7 +30,7 @@
                 HireLens
               </NuxtLink>
               <p class="text-sm">
-                Evidence-based recruiter screening for structured candidate review
+                {{ t('nav.subtitle') }}
               </p>
             </div>
           </div>
@@ -25,8 +38,14 @@
           <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between lg:justify-end">
             <div class="flex items-center gap-3">
               <UBadge class="rounded-full px-3 py-1 font-semibold uppercase" color="neutral" variant="soft">
-                Recruiter Dashboard
+                {{ t('nav.badge') }}
               </UBadge>
+
+              <UDropdownMenu :items="languageItems">
+                <UButton size="xs" variant="ghost" icon="mdi:translate">
+                  {{ locale.toUpperCase() }}
+                </UButton>
+              </UDropdownMenu>
 
               <UColorModeSwitch />
             </div>

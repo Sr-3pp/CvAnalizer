@@ -1,4 +1,32 @@
 import type { AnalysisResults } from '~~/types/results'
+import type { PdfReportTranslations } from '~~/types/i18n'
+
+const defaultPdfTranslations: PdfReportTranslations = {
+  reportTitle: 'Candidate Analysis Report',
+  candidate: 'Candidate',
+  title: 'Title',
+  location: 'Location',
+  experience: 'Experience',
+  availability: 'Availability',
+  yearsSuffix: 'years',
+  shortlistStatus: 'Shortlist Status',
+  shortlisted: 'Shortlisted',
+  notShortlisted: 'Not Shortlisted',
+  matchScore: 'Match Score',
+  matchLabel: 'Match Label',
+  summary: 'Summary',
+  evaluationAreas: 'Evaluation Areas',
+  items: 'Items',
+  evidence: 'Evidence',
+  assessment: 'Assessment',
+  strengths: 'Strengths',
+  gaps: 'Gaps',
+  risks: 'Risks',
+  signals: 'Signals',
+  interviewFocus: 'Interview Focus',
+  fileSuffix: 'match-report',
+  shortlistedFileSuffix: 'shortlisted',
+}
 
 const sanitizePdfText = (value: string) => value
   .normalize('NFKD')
@@ -42,66 +70,70 @@ const wrapPdfText = (text: string, maxLength = 88) => {
   return lines
 }
 
-export const buildPdfLines = (results: AnalysisResults, shortlisted: boolean) => {
+export const buildPdfLines = (
+  results: AnalysisResults,
+  shortlisted: boolean,
+  translations: PdfReportTranslations = defaultPdfTranslations,
+) => {
   const lines: string[] = [
-    'Candidate Analysis Report',
+    translations.reportTitle,
     '',
-    `Candidate: ${results.candidate.name}`,
-    `Title: ${results.candidate.current_title}`,
-    `Location: ${results.candidate.location}`,
-    `Experience: ${results.candidate.experience_years} years`,
-    `Availability: ${results.candidate.availability}`,
-    `Shortlist Status: ${shortlisted ? 'Shortlisted' : 'Not Shortlisted'}`,
+    `${translations.candidate}: ${results.candidate.name}`,
+    `${translations.title}: ${results.candidate.current_title}`,
+    `${translations.location}: ${results.candidate.location}`,
+    `${translations.experience}: ${results.candidate.experience_years} ${translations.yearsSuffix}`,
+    `${translations.availability}: ${results.candidate.availability}`,
+    `${translations.shortlistStatus}: ${shortlisted ? translations.shortlisted : translations.notShortlisted}`,
     '',
-    `Match Score: ${results.match.score}/100`,
-    `Match Label: ${results.match.label}`,
-    `Summary: ${results.match.summary}`,
+    `${translations.matchScore}: ${results.match.score}/100`,
+    `${translations.matchLabel}: ${results.match.label}`,
+    `${translations.summary}: ${results.match.summary}`,
     '',
-    'Evaluation Areas',
+    translations.evaluationAreas,
   ]
 
   for (const area of results.evaluation_areas) {
     lines.push(`${area.category} - ${area.level} (${area.score}/100)`)
     if (area.items.length) {
-      lines.push(`Items: ${area.items.join(', ')}`)
+      lines.push(`${translations.items}: ${area.items.join(', ')}`)
     }
-    lines.push(`Evidence: ${area.evidence}`)
+    lines.push(`${translations.evidence}: ${area.evidence}`)
     lines.push('')
   }
 
-  lines.push('Assessment')
-  lines.push(`Summary: ${results.assessment.summary}`)
+  lines.push(translations.assessment)
+  lines.push(`${translations.summary}: ${results.assessment.summary}`)
 
   if (results.assessment.strengths.length) {
-    lines.push('Strengths:')
+    lines.push(`${translations.strengths}:`)
     for (const item of results.assessment.strengths) {
       lines.push(`- ${item}`)
     }
   }
 
   if (results.assessment.gaps.length) {
-    lines.push('Gaps:')
+    lines.push(`${translations.gaps}:`)
     for (const item of results.assessment.gaps) {
       lines.push(`- ${item}`)
     }
   }
 
   if (results.assessment.risks.length) {
-    lines.push('Risks:')
+    lines.push(`${translations.risks}:`)
     for (const item of results.assessment.risks) {
       lines.push(`- ${item}`)
     }
   }
 
   if (results.signals.length) {
-    lines.push('', 'Signals')
+    lines.push('', translations.signals)
     for (const signal of results.signals) {
       lines.push(`- ${signal.label}: ${signal.value} (${signal.score}/100)`)
     }
   }
 
   if (results.interview_focus.length) {
-    lines.push('', 'Interview Focus')
+    lines.push('', translations.interviewFocus)
     for (const item of results.interview_focus) {
       lines.push(`- ${item}`)
     }
@@ -182,8 +214,12 @@ const createPdfBlob = (lines: string[]) => {
   return new Blob([pdf], { type: 'application/pdf' })
 }
 
-export const downloadAnalysisReport = (results: AnalysisResults, shortlisted: boolean) => {
-  const pdfLines = buildPdfLines(results, shortlisted)
+export const downloadAnalysisReport = (
+  results: AnalysisResults,
+  shortlisted: boolean,
+  translations: PdfReportTranslations = defaultPdfTranslations,
+) => {
+  const pdfLines = buildPdfLines(results, shortlisted, translations)
   const pdfBlob = createPdfBlob(pdfLines)
   const url = URL.createObjectURL(pdfBlob)
   const link = document.createElement('a')
@@ -193,7 +229,7 @@ export const downloadAnalysisReport = (results: AnalysisResults, shortlisted: bo
     .replace(/^-+|-+$/g, '') || 'candidate'
 
   link.href = url
-  link.download = `${slug}${shortlisted ? '-shortlisted' : ''}-match-report.pdf`
+  link.download = `${slug}${shortlisted ? `-${translations.shortlistedFileSuffix}` : ''}-${translations.fileSuffix}.pdf`
   document.body.appendChild(link)
   link.click()
   document.body.removeChild(link)
