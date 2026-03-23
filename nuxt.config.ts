@@ -14,11 +14,27 @@ export default defineNuxtConfig({
 
   modules: [
     '@nuxt/eslint',
+    '@nuxt/fonts',
     '@nuxt/image',
     '@nuxt/test-utils',
     '@nuxt/ui',
     '@nuxtjs/i18n'
   ],
+
+  fonts: {
+    families: [
+      {
+        name: 'Public Sans',
+        provider: 'google',
+        weights: [400, 500, 600, 700],
+      },
+      {
+        name: 'IBM Plex Sans',
+        provider: 'google',
+        weights: [500, 600, 700],
+      },
+    ],
+  },
 
   i18n: {
     strategy: 'no_prefix',
@@ -28,10 +44,7 @@ export default defineNuxtConfig({
       { code: 'en', name: 'English', file: 'en.json' },
       { code: 'es', name: 'Español', file: 'es.json' }
     ],
-    langDir: 'locales',
-    bundle: {
-      optimizeTranslationDirective: false
-    }
+    langDir: 'locales'
   },
 
   css: [
